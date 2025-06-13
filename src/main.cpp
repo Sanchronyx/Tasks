@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <filesystem>
+#include <limits>
 #include "Task.h"
 
 using namespace std;
@@ -57,7 +58,12 @@ void addTask() {
 void markDone() {
     int id;
     cout << "\nEnter task ID to mark as done: ";
-    cin >> id;
+    if (!(cin >> id)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input. Please enter a number.\n";
+        return;
+    }
     cin.ignore();
     for (Task& task : tasks) {
         if (task.getId() == id) {
@@ -72,7 +78,12 @@ void markDone() {
 void editTask() {
     int id;
     cout << "\nEnter task ID to edit: ";
-    cin >> id;
+    if (!(cin >> id)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input. Please enter a number.\n";
+        return;
+    }
     cin.ignore();
     for (Task& task : tasks) {
         if (task.getId() == id) {
@@ -91,7 +102,12 @@ void editTask() {
 void deleteTask() {
     int id;
     cout << "\nEnter task ID to delete: ";
-    cin >> id;
+    if (!(cin >> id)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input. Please enter a number.\n";
+        return;
+    }
     cin.ignore();
     for (auto it = tasks.begin(); it != tasks.end(); ++it) {
         if (it->getId() == id) {
@@ -123,8 +139,13 @@ int main() {
     int choice;
     do {
         cout << "\nChoose an option: ";
-        cin >> choice;
-        cin.ignore();
+        if (!(cin >> choice)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a number.\n";
+            continue;
+        }
+        cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 
         switch (choice) {
             case 0: showMenu(); break;
